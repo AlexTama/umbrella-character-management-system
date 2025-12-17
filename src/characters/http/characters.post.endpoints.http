@@ -1,0 +1,10 @@
+## Post contents to create a new character
+
+POST http://localhost:3000/characters
+Content-Type: application/json
+{
+  "name": "Albert Wesker",
+  "alias": "The Mastermind",
+  "abilities": ["Superhuman Strength", "Regeneration", "Telekinesis"],
+  "affiliation": "Umbrella Corporation"
+}

@@ -1,0 +1,6 @@
+## Delete requests for character content
+
+DELETE http://localhost:3000/characters/1
+Content-Type: application/json
+{
+}
