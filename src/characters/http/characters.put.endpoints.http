@@ -1,6 +1,6 @@
 ## Put contents to update an existing character
 
-PUT http://localhost:3000/characters/1
+PUT http://localhost:3000/api/v1/characters/1
 Content-Type: application/json
 {
   "name": "Albert Wesker",

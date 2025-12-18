@@ -1,3 +1,3 @@
 ## Get requests for character content
 
-GET http://localhost:3000/characters
+GET http://localhost:3000/api/v1/characters

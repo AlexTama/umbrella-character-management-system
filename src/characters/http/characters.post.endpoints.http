@@ -1,6 +1,6 @@
 ## Post contents to create a new character
 
-POST http://localhost:3000/characters
+POST http://localhost:3000/api/v1/characters
 Content-Type: application/json
 {
   "name": "Albert Wesker",
