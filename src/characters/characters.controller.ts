@@ -6,12 +6,15 @@ import {
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 
 @Controller('api/v1/characters')
 export class CharactersController {
-  @Get('{/:id}')
-  getAllCharacters(): string {
+  // Get filter characters by pagination
+  @Get('')
+  getAllCharacters(@Query() query: any): string {
+    console.log(query);
     return 'List of all Umbrella characters';
   }
 

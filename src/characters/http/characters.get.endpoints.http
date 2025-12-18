@@ -1,3 +1,6 @@
 ## Get requests for character content
 
 GET http://localhost:3000/api/v1/characters
+
+## Get pagination of character content
+GET http://localhost:3000/api/v1/characters?page=1&limit=20&search=chris&faction=Umbrella-hunting
