@@ -1,14 +1,24 @@
-import { Controller, Delete, Get, Patch, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
 
-@Controller('characters')
+@Controller('api/v1/characters')
 export class CharactersController {
-  @Get()
+  @Get('{/:id}')
   getAllCharacters(): string {
     return 'List of all Umbrella characters';
   }
 
   @Post()
-  createCharacter(): string {
+  createCharacter(@Body() body: any): string {
+    // Logic to store the new character would go here
+    console.log(body);
     return 'New Umbrella character created';
   }
 
