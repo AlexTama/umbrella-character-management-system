@@ -12,9 +12,10 @@ import {
 @Controller('api/v1/characters')
 export class CharactersController {
   // Get filter characters by pagination
-  @Get('')
+  @Get()
   getAllCharacters(@Query() query: any): string {
     console.log(query);
+    // Logic to retrieve characters with pagination and filtering would go here
     return 'List of all Umbrella characters';
   }
 
