@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Post,
   Put,
@@ -10,38 +11,60 @@ import {
   Version,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { CharacterService } from './characters.service';
+import { CreateCharacterDto } from 'src/domain/character.dto';
+import { CharacterResponseDto } from 'src/domain/character.response.dto';
+import { ListCharactersQueryDto } from 'src/domain/list-characters.query.dto';
+import { CharacterMapper } from 'src/domain/character.mapper';
+
+// TODO: Move to a constants file
+const API_VERSION = '1';
 
 @Controller('api/characters')
 @ApiTags('Characters')
 export class CharactersController {
+  constructor(private readonly characterService: CharacterService) {}
+
   // Get filter characters by pagination
   @Get()
-  @Version('1')
-  getAllCharacters(@Query() query: any): string {
-    console.log(query);
-    // Logic to retrieve characters with pagination and filtering would go here
-    return 'List of all Umbrella characters';
+  @Version(API_VERSION)
+  getAllCharacters(
+    @Query() query: ListCharactersQueryDto,
+  ): CharacterResponseDto[] {
+    const characters = this.characterService.findAll(query);
+    return characters.map((character) =>
+      CharacterMapper.toResponseDto(character),
+    );
   }
-
   @Post()
-  createCharacter(@Body() body: any): string {
-    // Logic to store the new character would go here
-    console.log(body);
-    return 'New Umbrella character created';
+  @Version(API_VERSION)
+  createCharacter(
+    @Body() characterDto: CreateCharacterDto,
+  ): CharacterResponseDto {
+    return this.characterService.createCharacter(characterDto);
   }
 
   @Put(':id')
-  updateCharacter(): string {
-    return 'Umbrella character updated';
+  @Version(API_VERSION)
+  updateCharacter(
+    @Body() characterDto: CreateCharacterDto,
+    @Param('id') id: string,
+  ): CharacterResponseDto {
+    return this.characterService.updateCharacter(id, characterDto);
   }
 
   @Patch(':id')
-  partiallyUpdateCharacter(): string {
-    return 'Umbrella character partially updated';
+  @Version(API_VERSION)
+  partiallyUpdateCharacter(
+    @Body() characterDto: Partial<CreateCharacterDto>,
+    @Param('id') id: string,
+  ): CharacterResponseDto {
+    return this.characterService.partialUpdateCharacter(id, characterDto);
   }
 
   @Delete(':id')
-  deleteCharacter(): string {
-    return 'Umbrella character deleted';
+  @Version(API_VERSION)
+  deleteCharacter(@Param('id') id: string): void {
+    this.characterService.deleteCharacter(id);
   }
 }
