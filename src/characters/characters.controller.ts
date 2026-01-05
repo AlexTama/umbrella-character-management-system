@@ -49,8 +49,8 @@ export class CharactersController {
   updateCharacter(
     @Body() characterDto: CreateCharacterDto,
     @Param('id') id: string,
-  ): CharacterResponseDto {
-    return this.characterService.updateCharacter(id, characterDto);
+  ): void {
+    this.characterService.updateCharacter(id, characterDto);
   }
 
   @Patch(':id')

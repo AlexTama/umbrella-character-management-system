@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable } from '@nestjs/common';
+import type { CharacterRepository } from 'src/data-access/character.repository';
 import { CreateCharacterDto } from 'src/domain/character.dto';
 import { Character } from 'src/domain/character.entity';
 import { ListCharactersQueryDto } from 'src/domain/list-characters.query.dto';
@@ -12,6 +13,7 @@ const CHARACTERS_DATABASE: any = [
 // characters/application/character.service.ts
 @Injectable()
 export class CharacterService {
+  constructor(private readonly repository: CharacterRepository) {}
   createCharacter(characterDto: CreateCharacterDto): Character {
     const character = new Character(
       crypto.randomUUID(),
@@ -20,21 +22,19 @@ export class CharacterService {
       characterDto.type,
       new Date(),
     );
+    this.repository.save(character);
     return character;
   }
 
   findAll(query: ListCharactersQueryDto): Character[] {
-    console.log(query);
-    // TODO Logic to retrieve characters with pagination and filtering would go here
-    // TODO: REPLACE WITH ACTUAL DATABASE CALL
-    return CHARACTERS_DATABASE as Character[];
+    return this.repository.findAll(query);
   }
 
-  updateCharacter(id: string, characterDto: CreateCharacterDto): Character {
-    // TODO Logic to update a character would go here
-    console.log(id);
+  updateCharacter(id: string, characterDto: CreateCharacterDto): void {
+    const character = this.repository.findById(id);
+    // Logic to update data
     console.log(characterDto);
-    return CHARACTERS_DATABASE[0] as Character;
+    this.repository.save(character as Character);
   }
 
   partialUpdateCharacter(
@@ -47,9 +47,7 @@ export class CharacterService {
     return CHARACTERS_DATABASE[0] as Character;
   }
 
-  // ask why its better return void intead of boolean in a delete method
   deleteCharacter(id: string): void {
-    // TODO Logic to delete a character would go here
-    console.log(id);
+    this.repository.delete(id);
   }
 }
